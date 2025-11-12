@@ -31,12 +31,14 @@ const Timeline = () => {
 
   return (
     <div className="container">
-      <div className="cross-lines">
-        <div className="cross-line horizontal"></div>
-        <div className="cross-line vertical"></div>
-      </div>
       <div className="timeline">
-        <h1>Исторические даты</h1>
+        <div className="cross-lines">
+          <div className="cross-line horizontal"></div>
+          <div className="cross-line vertical"></div>
+        </div>
+        <div className="timeline-title">
+          <h1>Исторические даты</h1>
+        </div>
 
         <div className="timeline-content">
           <CircleSlider
