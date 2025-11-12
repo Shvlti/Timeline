@@ -1,0 +1,47 @@
+@use './variables' as *;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+}
+
+body {
+  font-family: $font-family;
+  color: $text-color;
+  background-color: $light-gray;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: 'PT Sans', sans-serif;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+// Reset styles
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+// Utility classes
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 $spacing-sm;
+  border-left: 1px solid #e0e0e0;
+  border-right: 1px solid #e0e0e0;
+  
+}
+
+.text-center {
+  text-align: center;
+}

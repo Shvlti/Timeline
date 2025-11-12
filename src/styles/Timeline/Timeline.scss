@@ -1,0 +1,15 @@
+.timeline {
+  
+  
+  h1 {
+    text-align: left;
+    margin: 40px 0 40px;
+  }
+}
+
+.timeline-content {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+}
