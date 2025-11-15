@@ -5,6 +5,8 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "../../styles/Timeline/CircleSlider.scss";
+import { gsap } from "gsap";
+import { AnimatedYear } from "./AnimatedYear";
 
 interface Slide {
   id: number;
@@ -24,7 +26,7 @@ const CircleSlider: React.FC<CircleSliderProps> = ({
   activeSlide,
   onSlideChange,
 }) => {
-  const swiperRef = useRef<HTMLDivElement>(null);
+  const swiperRef = useRef<HTMLDivElement | null>(null);
   const swiperInstance = useRef<Swiper | null>(null);
 
   const handleSlideChange = useCallback(
@@ -104,43 +106,74 @@ const CircleSlider: React.FC<CircleSliderProps> = ({
     },
     [onSlideChange]
   );
+  const dotsRef = useRef<HTMLButtonElement[]>([]);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const step = 360 / slides.length;
+    const angle = -activeSlide * step;
+    gsap.to(wrapperRef.current, {
+      rotate: angle,
+      duration: 0.8,
+      ease: "power2.inOut",
+    });
+  }, [activeSlide, slides.length]);
 
   return (
     <div className="circle-slider">
       <div className="center-dates">
-        <span className="start-year" style={{ color: "#3877EE" }}>
-          {slides[activeSlide]?.startYear}
-        </span>
-        <span className="end-year" style={{ color: "#EF5DA8" }}>
-          {slides[activeSlide]?.endYear}
-        </span>
+        <AnimatedYear
+          year={slides[activeSlide]?.startYear || ""}
+          color="#3877EE"
+          className="start-year"
+        />
+        <AnimatedYear
+          year={slides[activeSlide]?.endYear || ""}
+          color="#EF5DA8"
+          className="end-year"
+        />
       </div>
 
       <div className="circle-container">
         <div className="circle-border"></div>
-        {slides.map((slide, index: number) => {
-          const angle = (index * 360) / slides.length;
-          const radian = (angle * Math.PI) / 180;
-          const radius = 180;
-          const x = Math.cos(radian) * radius;
-          const y = Math.sin(radian) * radius;
-
-          return (
-            <button
-              key={slide.id}
-              className={`dot ${index === activeSlide ? "active" : ""}`}
-              style={{
-                position: "absolute",
-                left: `calc(50% + ${x}px)`,
-                top: `calc(50% + ${y}px)`,
-                transform: "translate(-50%, -50%)",
-              }}
-              onClick={() => handleSimpleDotClick(index)}
-            >
-              <span className="dot-number">{index + 1}</span>
-            </button>
-          );
-        })}
+        <div className="circle-wrapper" ref={wrapperRef}>
+          {slides.map((slide, index: number) => {
+            const step = 360 / slides.length;
+            return (
+              <button
+                ref={(el) => (dotsRef.current[index] = el!)}
+                key={slide.id}
+                className={`dot ${index === activeSlide ? "active" : ""}`}
+                style={{
+                  transform: `rotate(${
+                    index * step
+                  }deg) translate(180px) scale(${
+                    index === activeSlide ? 1 : 0.2
+                  })`,
+                  transition: "transform 0.3s ease", // добавляем плавность
+                }}
+                onMouseEnter={(e) => {
+                  if (index !== activeSlide) {
+                    e.currentTarget.style.transform = `rotate(${
+                      index * step
+                    }deg) translate(180px) scale(1)`;
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (index !== activeSlide) {
+                    e.currentTarget.style.transform = `rotate(${
+                      index * step
+                    }deg) translate(180px) scale(0.20)`;
+                  }
+                }}
+                onClick={() => handleSimpleDotClick(index)}
+              >
+                <span className="dot-inner">
+                  <span className="dot-number">{index + 1}</span>
+                </span>
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       <div className="circle-navigation">

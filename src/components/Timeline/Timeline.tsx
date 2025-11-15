@@ -37,7 +37,9 @@ const Timeline = () => {
           <div className="cross-line vertical"></div>
         </div>
         <div className="timeline-title">
-          <h1>Исторические даты</h1>
+          <h1>
+            Исторические <span>даты</span>
+          </h1>
         </div>
 
         <div className="timeline-content">

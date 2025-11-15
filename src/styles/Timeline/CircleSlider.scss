@@ -1,7 +1,9 @@
+@import '../variables.scss';
+
 .circle-slider {
   position: relative;
-  width: 530px;
-  height: 530px;
+  width: 100%;
+  height: 100%;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -17,16 +19,34 @@
     font-weight: bold;
     gap: 40px;
     display: flex;
-  }
-  .startYear{
+  
+    align-items: center;
+    .start-year,
+    .end-year {
+    display: flex;
+    gap: 1px; // маленький отступ между цифрами
+    
+    font-weight: bold;
+    line-height: 1;
+    
+    // Для плавности 3D-трансформаций
+    perspective: 100px;
+    
+    span {
+      // Каждая цифра будет анимироваться отдельно
+      backface-visibility: hidden;
+    }
+    }
+    }
+    .startYear{
     color: secondary-color;
-  }
+    }
 
   .circle-container {
     position: relative;
     width: 360px;
     height: 360px;
-    margin: 100px auto;
+    margin: 0 auto;
 
     .circle-border {
       position: absolute;
@@ -34,16 +54,35 @@
       left: 0;
       width: 100%;
       height: 100%;
-      border: 1px solid #e0e0e0;
+      border: 1px solid $lines;
       border-radius: 50%;
     }
 
     .dot {
-      width: 6px;
-      height: 6px;
+      width: 40px;
+      height: 40px;
       border: none;
       border-radius: 50%;
-      background: #42567A;
+      background: $primary-color;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      z-index: 100;
+      position: absolute;
+      left: 45%;
+      top: 45%;
+      transform-origin: center;
+      transform: translate(-50%, -50%);
+      
+      &:hover {
+        width: 40px;
+      height: 40px;
+      border: 1px solid #303e587c;
+      border-radius: 50%;
+      background: $light-gray;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -51,13 +90,21 @@
       transition: all 0.3s ease;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       z-index: 2;
-
+      transform-origin: center ;
+      
+      
+      .dot-number {
+          color: $primary-color;
+          font-size: 20px;
+          line-height: 30px;
+        }
+      }
       &.active {
       width: 40px;
       height: 40px;
       border: 1px solid #303e587c;
       border-radius: 50%;
-      background: #F4F5F9;
+      background: $light-gray;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -65,9 +112,13 @@
       transition: all 0.3s ease;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       z-index: 2;
+      transform-origin: center ;
+      
+      
+      
         
         .dot-number {
-          color: #42567A;
+          color: $primary-color;
           font-size: 20px;
           line-height: 30px;
         }
@@ -84,8 +135,8 @@
     position: absolute;
     display: block;
     bottom: 0%;
-    left: 0;
-    transform: translateX(-50%);
+    left: 7%;
+    transform: translateY(50%);
     display: flex;
     align-items: flex-start;
     gap: 10px;
@@ -93,7 +144,7 @@
 
     .slide-counter {
       font-size: 14px;
-      color: #42567A;
+      color: $primary-color;
 
       .current-slide {
         font-size: 16px;
@@ -101,7 +152,7 @@
       }
 
       .total-slides {
-              color: #42567A;
+              color: $primary-color;
 
       }
     }
@@ -121,7 +172,7 @@
         align-items: center;
         justify-content: center;
         transition: all 0.3s ease;
-        color: #42567A;
+        color: $primary-color;
         font-size: 14px;
         &:hover {
           background: #f5f5f5;
@@ -140,4 +191,13 @@
   .hidden-swiper {
     display: none;
   }
+}
+.circle-wrapper{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 360px;
+  height: 360px;
+  transform: translate(-50%, -50%);
+  transform-origin: center center;
 }
