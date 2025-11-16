@@ -3,6 +3,7 @@ import CircleSlider from "./CircleSlider";
 import EventsSlider from "./EventsSlider";
 import { timelineData } from "./data";
 import "../../styles/Timeline/Timeline.scss";
+import "../../styles/Timeline/Mobile.scss";
 
 const Timeline = () => {
   const [activeSlide, setActiveSlide] = useState(0);

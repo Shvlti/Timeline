@@ -5,6 +5,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "../../styles/Timeline/CircleSlider.scss";
+import "../../styles/Timeline/Mobile.scss";
 import { gsap } from "gsap";
 import { AnimatedYear } from "./AnimatedYear";
 
@@ -28,6 +29,9 @@ const CircleSlider: React.FC<CircleSliderProps> = ({
 }) => {
   const swiperRef = useRef<HTMLDivElement | null>(null);
   const swiperInstance = useRef<Swiper | null>(null);
+  const dotsRef = useRef<HTMLButtonElement[]>([]);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
+  const numbersRef = useRef<HTMLSpanElement[]>([]); // ← новый ref для цифр
 
   const handleSlideChange = useCallback(
     (swiper: Swiper) => {
@@ -72,6 +76,29 @@ const CircleSlider: React.FC<CircleSliderProps> = ({
     }
   }, [activeSlide]);
 
+  // Анимация вращения с компенсацией для цифр
+  useEffect(() => {
+    const step = 360 / slides.length;
+    const angle = -activeSlide * step;
+
+    gsap.to(wrapperRef.current, {
+      rotate: angle,
+      duration: 0.8,
+      ease: "power2.inOut",
+    });
+
+    // Компенсируем вращение для всех цифр
+    numbersRef.current.forEach((numberElement) => {
+      if (numberElement) {
+        gsap.to(numberElement, {
+          rotate: -angle, // обратное вращение
+          duration: 0.8,
+          ease: "power2.inOut",
+        });
+      }
+    });
+  }, [activeSlide, slides.length]);
+
   const handleDotClick = useCallback((index: number) => {
     if (swiperInstance.current) {
       swiperInstance.current.slideToLoop(index);
@@ -106,17 +133,6 @@ const CircleSlider: React.FC<CircleSliderProps> = ({
     },
     [onSlideChange]
   );
-  const dotsRef = useRef<HTMLButtonElement[]>([]);
-  const wrapperRef = useRef<HTMLDivElement | null>(null);
-  useEffect(() => {
-    const step = 360 / slides.length;
-    const angle = -activeSlide * step;
-    gsap.to(wrapperRef.current, {
-      rotate: angle,
-      duration: 0.8,
-      ease: "power2.inOut",
-    });
-  }, [activeSlide, slides.length]);
 
   return (
     <div className="circle-slider">
@@ -149,7 +165,7 @@ const CircleSlider: React.FC<CircleSliderProps> = ({
                   }deg) translate(180px) scale(${
                     index === activeSlide ? 1 : 0.2
                   })`,
-                  transition: "transform 0.3s ease", // добавляем плавность
+                  transition: "transform 0.3s ease",
                 }}
                 onMouseEnter={(e) => {
                   if (index !== activeSlide) {
@@ -168,7 +184,12 @@ const CircleSlider: React.FC<CircleSliderProps> = ({
                 onClick={() => handleSimpleDotClick(index)}
               >
                 <span className="dot-inner">
-                  <span className="dot-number">{index + 1}</span>
+                  <span
+                    className="dot-number"
+                    ref={(el) => (numbersRef.current[index] = el!)} // ← ref для цифры
+                  >
+                    {index + 1}
+                  </span>
                 </span>
               </button>
             );

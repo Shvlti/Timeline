@@ -5,6 +5,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "../../styles/Timeline/EventsSlider.scss";
+import "../../styles/Timeline/Mobile.scss";
 import { gsap } from "gsap";
 
 interface Event {
@@ -113,7 +114,24 @@ const EventsSlider: React.FC<EventsSliderProps> = ({ events }) => {
         },
         pagination: false,
         speed: 400,
-        init: false, // отключаем авто-инициализацию
+        init: false,
+        breakpoints: {
+          // 640px и выше
+          640: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+          },
+          // 768px и выше
+          768: {
+            slidesPerView: 3,
+            spaceBetween: 30,
+          },
+          // 1024px и выше
+          1024: {
+            slidesPerView: 3,
+            spaceBetween: 40,
+          },
+        },
       });
 
       // Инициализируем вручную
