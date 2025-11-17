@@ -1,6 +1,5 @@
 @import '../variables.scss';
 
-
 .circle-slider {
   position: relative;
   width: 100%;
@@ -8,6 +7,7 @@
   margin: 0 auto;
   display: flex;
   align-items: center;
+  font-family: $font-family;
   
   .center-dates {
     position: absolute;
@@ -18,31 +18,30 @@
     z-index: 1;
     font-size: 160px;
     pointer-events: none;
-    font-weight: bold;
-    gap: 40px;
+    font-weight: $font-weight-bold;
+    gap: $spacing-xl;
     display: flex;
-  
     align-items: center;
+    font-family: $font-family;
+    .YearOne{
+      color: $first-color;
+    }
+    .YearTwo{
+      color: $secondary-color;
+    }
     .start-year,
     .end-year {
-    display: flex;
-    
-    
-    font-weight: bold;
-    line-height: 1;
-    
-    // Для плавности 3D-трансформаций
-    perspective: 100px;
-    
-    span {
-      // Каждая цифра будет анимироваться отдельно
-      backface-visibility: hidden;
+      display: flex;
+      font-weight: $font-weight-bold;
+      line-height: 1;
+      perspective: 100px;
+      font-family: $font-family;
+      
+      span {
+        backface-visibility: hidden;
+      }
     }
-    }
-    }
-    .startYear{
-    color: secondary-color;
-    }
+  }
 
   .circle-container {
     position: relative;
@@ -77,63 +76,66 @@
       left: 45%;
       top: 45%;
       transform-origin: center;
-      transform: translate3d(-50%, -50%, 0);;
-       isolation: isolate;
+      transform: translate3d(-50%, -50%, 0);
+      isolation: isolate;
+      font-family: $font-family;
+
+      
       &:hover {
         width: 40px;
-      height: 40px;
-      border: 1px solid #303e587c;
-      border-radius: 50%;
-      background: $light-gray;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      z-index: 1001;
-      transform-origin: center ;
-      
-      
-      
-      
-      .dot-number {
-          color: $primary-color;
-          font-size: 20px;
-          line-height: 30px;
-           transform: rotate(calc(-1 * var(--dot-rotation, 0deg)));
-     transition: transform 0.3s ease;
-    display: block;
-        }
-      }
-      &.active {
-      width: 40px;
-      height: 40px;
-      border: 1px solid #303e587c;
-      border-radius: 50%;
-      background: $light-gray;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      z-index: 1001;
-      transform-origin: center ;
-      
-      
-      
+        height: 40px;
+        border: 1px solid #303e587c;
+        border-radius: 50%;
+        background: $light-gray;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        z-index: 1001;
+        transform-origin: center;
         
         .dot-number {
           color: $primary-color;
           font-size: 20px;
           line-height: 30px;
-          
+          transform: rotate(calc(-1 * var(--dot-rotation, 0deg)));
+          transition: transform 0.3s ease;
+          display: block;
+          font-family: $font-family;
+          font-weight: $font-weight-normal;
+        }
+      }
+      
+      &.active {
+        width: 40px;
+        height: 40px;
+        border: 1px solid #303e587c;
+        border-radius: 50%;
+        background: $light-gray;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        z-index: 1001;
+        transform-origin: center;
+        
+        .dot-number {
+          color: $primary-color;
+          font-size: 20px;
+          line-height: 30px;
+          font-family: $font-family;
+          font-weight: $font-weight-normal;
+          transform: rotate(calc(-1 * var(--dot-rotation, 0deg)));
         }
       }
 
       .dot-number {
         font-size: 0;
+        font-family: $font-family;
       }
     }
   }
@@ -147,41 +149,46 @@
     transform: translateY(50%);
     display: flex;
     align-items: flex-start;
-    gap: 10px;
+    gap: $spacing-sm;
     flex-direction: column;
+    font-family: $font-family;
 
     .slide-counter {
-      font-size: 14px;
+      font-size: $font-size-base;
       color: $primary-color;
+      font-family: $font-family;
 
       .current-slide {
         font-size: 16px;
-        font-weight: 500;
+        font-weight: $font-weight-normal;
+        font-family: $font-family;
       }
 
       .total-slides {
-              color: $primary-color;
-
+        color: $primary-color;
+        font-family: $font-family;
       }
     }
 
     .navigation-buttons {
       display: flex;
-      gap: 10px;
+      gap: $spacing-sm;
 
       .circle-nav-button {
         width: 40px;
         height: 40px;
         border: 1px solid #42567a7e;
         border-radius: 50%;
-        background: #F4F5F9;
+        background: $light-gray;
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
         transition: all 0.3s ease;
         color: $primary-color;
-        font-size: 14px;
+        font-size: $font-size-base;
+        font-family: $font-family;
+        
         &:hover {
           background: #f5f5f5;
           border-color: #5d5fef;
@@ -195,37 +202,42 @@
     }
   }
 
-  // Скрытый Swiper
   .hidden-swiper {
     display: none;
   }
 }
-.circle-wrapper{
+
+.circle-wrapper {
   position: absolute;
   top: 50%;
   left: 50%;
-  width:
-360px;
+  width: 360px;
   height: 360px;
   transform: translate(-50%, -50%);
   transform-origin: center center;
   z-index: 10;
 }
 
-.dots-row{
-      display: flex;
-      gap: 5px;
-      bottom: -150%;
-    right: 50%;
-    transform: translate(50%, 50%);
-    position: absolute;
+.dots-row {
+  display: flex;
+  gap: $spacing-xs;
+  bottom: -150%;
+  right: 50%;
+  transform: translate(50%, 50%) !important;
+  position: absolute;
 }
-.dot-mobile{
+
+.dot-mobile {
   width: 6px;
   height: 6px;
   background-color: $lines;
   border-radius: 50%;
-  &.active{
+  font-family: $font-family;
+  
+  &.active {
     background-color: $primary-color;
   }
+}
+.swiper-navigation-icon{
+  color: $first-color;
 }

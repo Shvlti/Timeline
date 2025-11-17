@@ -4,9 +4,9 @@ import { gsap } from "gsap";
 
 export const AnimatedYear: React.FC<{
   year: string;
-  color: string;
+
   className: string;
-}> = ({ year, color, className }) => {
+}> = ({ year, className }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const prevYearRef = useRef<string>(year);
 
@@ -32,12 +32,7 @@ export const AnimatedYear: React.FC<{
   return (
     <div ref={containerRef} className={className} style={{ display: "flex" }}>
       {year.split("").map((digit, index) => (
-        <AnimatedDigit
-          key={index}
-          digit={digit}
-          color={color}
-          position={index}
-        />
+        <AnimatedDigit key={index} digit={digit} position={index} />
       ))}
     </div>
   );

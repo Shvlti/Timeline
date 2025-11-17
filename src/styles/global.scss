@@ -1,4 +1,4 @@
-@use './variables' as *;
+@import './variables.scss';
 
 * {
   box-sizing: border-box;
@@ -35,10 +35,8 @@ button {
 
 // Utility classes
 .container {
-  max-width: 1440px;
+  max-width: $desktop;
   margin: 0 auto;
-  
-  
 }
 
 .text-center {

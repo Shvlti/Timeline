@@ -1,9 +1,8 @@
 import React, { useMemo, useState } from "react";
-import CircleSlider from "./CircleSlider";
-import EventsSlider from "./EventsSlider";
-import { timelineData } from "./data";
+import { CircleSlider } from "./CircleSlider/CircleSlider";
+import EventsSlider from "./EventSlider/EventsSlider";
+import { timelineData } from "../../data/data";
 import "../../styles/Timeline/Timeline.scss";
-import "../../styles/Timeline/Mobile.scss";
 
 const Timeline = () => {
   const [activeSlide, setActiveSlide] = useState(0);

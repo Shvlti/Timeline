@@ -4,9 +4,9 @@ import { gsap } from "gsap";
 // Компонент для анимированной цифры
 export const AnimatedDigit: React.FC<{
   digit: string;
-  color: string;
+
   position: number;
-}> = ({ digit, color, position }) => {
+}> = ({ digit, position }) => {
   const digitRef = useRef<HTMLSpanElement>(null);
   const prevDigitRef = useRef<string>(digit);
 
@@ -34,7 +34,6 @@ export const AnimatedDigit: React.FC<{
     <span
       ref={digitRef}
       style={{
-        color,
         display: "inline-block",
         minWidth: "0.6em", // фиксированная ширина для цифр
         textAlign: "center",
