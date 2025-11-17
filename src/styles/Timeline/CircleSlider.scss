@@ -59,7 +59,7 @@
       border: 1px solid $lines;
       border-radius: 50%;
     }
-
+    
     .dot {
       width: 40px;
       height: 40px;
@@ -96,12 +96,13 @@
       
       
       
+      
       .dot-number {
           color: $primary-color;
           font-size: 20px;
           line-height: 30px;
-          transform: rotate(calc(-1 * var(--container-rotation, 0deg)));
-    transition: transform 0.8s ease;
+           transform: rotate(calc(-1 * var(--dot-rotation, 0deg)));
+     transition: transform 0.3s ease;
     display: block;
         }
       }
@@ -203,9 +204,28 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 360px;
+  width:
+360px;
   height: 360px;
   transform: translate(-50%, -50%);
   transform-origin: center center;
   z-index: 10;
+}
+
+.dots-row{
+      display: flex;
+      gap: 5px;
+      bottom: -150%;
+    right: 50%;
+    transform: translate(50%, 50%);
+    position: absolute;
+}
+.dot-mobile{
+  width: 6px;
+  height: 6px;
+  background-color: $lines;
+  border-radius: 50%;
+  &.active{
+    background-color: $primary-color;
+  }
 }

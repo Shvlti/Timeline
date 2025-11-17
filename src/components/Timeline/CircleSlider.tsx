@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback } from "react";
+import React, { useEffect, useRef, useCallback, useState } from "react";
 import Swiper from "swiper";
 import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
@@ -31,7 +31,7 @@ const CircleSlider: React.FC<CircleSliderProps> = ({
   const swiperInstance = useRef<Swiper | null>(null);
   const dotsRef = useRef<HTMLButtonElement[]>([]);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
-  const numbersRef = useRef<HTMLSpanElement[]>([]); // ← новый ref для цифр
+  const numbersRef = useRef<HTMLSpanElement[]>([]);
 
   const handleSlideChange = useCallback(
     (swiper: Swiper) => {
@@ -75,9 +75,11 @@ const CircleSlider: React.FC<CircleSliderProps> = ({
       swiperInstance.current.slideToLoop(activeSlide);
     }
   }, [activeSlide]);
-
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 500);
   // Анимация вращения с компенсацией для цифр
   useEffect(() => {
+    if (isMobile) return;
+
     const step = 360 / slides.length;
     const angle = -activeSlide * step;
 
@@ -87,17 +89,34 @@ const CircleSlider: React.FC<CircleSliderProps> = ({
       ease: "power2.inOut",
     });
 
-    // Компенсируем вращение для всех цифр
-    numbersRef.current.forEach((numberElement) => {
-      if (numberElement) {
-        gsap.to(numberElement, {
-          rotate: -angle, // обратное вращение
+    dotsRef.current.forEach((dot, index) => {
+      if (dot) {
+        const dotAngle = (index - activeSlide) * step;
+
+        dot.style.setProperty("--dot-rotation", `${dotAngle}deg`);
+
+        const targetX = Math.cos((index * step * Math.PI) / 180) * 180;
+        const targetY = Math.sin((index * step * Math.PI) / 180) * 180;
+
+        gsap.to(dot, {
+          x: targetX,
+          y: targetY,
+          scale: index === activeSlide ? 1 : 0.2,
           duration: 0.8,
           ease: "power2.inOut",
         });
       }
     });
-  }, [activeSlide, slides.length]);
+  }, [activeSlide, slides.length, isMobile]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 500);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleDotClick = useCallback((index: number) => {
     if (swiperInstance.current) {
@@ -150,51 +169,66 @@ const CircleSlider: React.FC<CircleSliderProps> = ({
       </div>
 
       <div className="circle-container">
-        <div className="circle-border"></div>
-        <div className="circle-wrapper" ref={wrapperRef}>
-          {slides.map((slide, index: number) => {
-            const step = 360 / slides.length;
-            return (
+        {isMobile ? (
+          <div className="dots-row">
+            {slides.map((slide, index) => (
               <button
-                ref={(el) => (dotsRef.current[index] = el!)}
                 key={slide.id}
-                className={`dot ${index === activeSlide ? "active" : ""}`}
-                style={{
-                  transform: `rotate(${
-                    index * step
-                  }deg) translate(180px) scale(${
-                    index === activeSlide ? 1 : 0.2
-                  })`,
-                  transition: "transform 0.3s ease",
-                }}
-                onMouseEnter={(e) => {
-                  if (index !== activeSlide) {
-                    e.currentTarget.style.transform = `rotate(${
-                      index * step
-                    }deg) translate(180px) scale(1)`;
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (index !== activeSlide) {
-                    e.currentTarget.style.transform = `rotate(${
-                      index * step
-                    }deg) translate(180px) scale(0.20)`;
-                  }
-                }}
-                onClick={() => handleSimpleDotClick(index)}
-              >
-                <span className="dot-inner">
-                  <span
-                    className="dot-number"
-                    ref={(el) => (numbersRef.current[index] = el!)} // ← ref для цифры
+                className={`dot-mobile ${
+                  index === activeSlide ? "active" : ""
+                }`}
+                onClick={() => onSlideChange(index)}
+              ></button>
+            ))}
+          </div>
+        ) : (
+          <>
+            <div className="circle-border"></div>
+            <div className="circle-wrapper" ref={wrapperRef}>
+              {slides.map((slide, index: number) => {
+                const step = 360 / slides.length;
+                return (
+                  <button
+                    ref={(el) => (dotsRef.current[index] = el!)}
+                    key={slide.id}
+                    className={`dot ${index === activeSlide ? "active" : ""}`}
+                    style={{
+                      transform: `rotate(${
+                        index * step
+                      }deg) translate(180px) scale(${
+                        index === activeSlide ? 1 : 0.2
+                      })`,
+                    }}
+                    onMouseEnter={(e) => {
+                      if (index !== activeSlide) {
+                        e.currentTarget.style.transform = `rotate(${
+                          index * step
+                        }deg) translate(180px) scale(1)`;
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (index !== activeSlide) {
+                        e.currentTarget.style.transform = `rotate(${
+                          index * step
+                        }deg) translate(180px) scale(0.20)`;
+                      }
+                    }}
+                    onClick={() => handleSimpleDotClick(index)}
                   >
-                    {index + 1}
-                  </span>
-                </span>
-              </button>
-            );
-          })}
-        </div>
+                    <span className="dot-inner">
+                      <span
+                        className="dot-number"
+                        ref={(el) => (numbersRef.current[index] = el!)}
+                      >
+                        {index + 1}
+                      </span>
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </>
+        )}
       </div>
 
       <div className="circle-navigation">

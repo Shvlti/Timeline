@@ -106,7 +106,7 @@ const EventsSlider: React.FC<EventsSliderProps> = ({ events }) => {
 
       swiper = new Swiper(swiperRef.current, {
         modules: [Navigation, Pagination],
-        slidesPerView: 3,
+        slidesPerView: 1.5,
         spaceBetween: 30,
         navigation: {
           nextEl: ".swiper-button-next",
