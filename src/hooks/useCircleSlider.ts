@@ -28,10 +28,7 @@ export const useCircleSlider = (
       slidesPerView: 1,
       loop: true,
       speed: 300,
-      navigation: {
-        nextEl: ".circle-nav-button.next-button",
-        prevEl: ".circle-nav-button.prev-button",
-      },
+      
       on: {
         slideChange: (swiper) => onSlideChange(swiper.realIndex),
       },

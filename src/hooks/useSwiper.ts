@@ -10,16 +10,16 @@ export const useSwiper = (config: SwiperConfig, dependencies: any[] = []) => {
     let swiper: Swiper | null = null;
 
     if (swiperRef.current) {
-      // Уничтожаем предыдущий экземпляр
+      
       if (swiperInstance.current) {
         swiperInstance.current.destroy(true, true);
         swiperInstance.current = null;
       }
 
-      // Создаем новый Swiper
+      
       swiper = new Swiper(swiperRef.current, config);
       
-      // Инициализируем если нужно
+      
       if (config.init === false) {
         swiper.init();
       }
